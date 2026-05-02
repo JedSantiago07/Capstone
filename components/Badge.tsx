@@ -4,36 +4,23 @@ interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "primary" | "success" | "warning" | "destructive" | "outline" | "secondary" | "info";
 }
 
-export function Badge({ children, variant = "primary", className = "", ...props }: BadgeProps) {
+export function Badge({ children, variant = "primary", className = "", style = {}, ...props }: BadgeProps & { style?: React.CSSProperties }) {
   const baseStyles = "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2";
-  
-  const variants = {
-    primary: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
-    success: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
-    warning: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-    destructive: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-    outline: "border border-slate-200 text-slate-950 dark:border-slate-800 dark:text-slate-50",
-    secondary: "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-400",
-  };
-
-  // Note: Since Tailwind isn't guaranteed, I'll use inline styles or standard CSS classes if needed.
-  // But wait, the user's project seems to use CSS Modules (page.module.css).
-  // However, these components are often shared. I'll use standard CSS classes that I'll define in a global CSS or just use inline styles for reliability if I don't want to mess with global CSS.
-  // Actually, I should check if there's a global CSS file.
   
   return (
     <div
       className={`badge badge-${variant} ${className}`}
+      {...props}
       style={{
         display: "inline-flex",
         alignItems: "center",
         borderRadius: "9999px",
-        padding: "2px 10px",
+        padding: "4px 12px",
         fontSize: "0.75rem",
         fontWeight: 600,
-        ...getVariantStyles(variant)
+        ...getVariantStyles(variant),
+        ...style
       }}
-      {...props}
     >
       {children}
     </div>

@@ -1,19 +1,45 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 
 const SelectContext = createContext<any>(null);
 
 export function Select({ children, value, onValueChange }: any) {
   const [open, setOpen] = useState(false);
+  const selectRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
   return (
     <SelectContext.Provider value={{ value, onValueChange, open, setOpen }}>
-      <div style={{ position: "relative", width: "100%" }}>{children}</div>
+      <div ref={selectRef} style={{ position: "relative", width: "100%" }}>{children}</div>
     </SelectContext.Provider>
   );
 }
 
-export function SelectTrigger({ children, className = "", style }: any) {
+export function SelectTrigger({ children, className = "", style, asChild = false, hideIcon = false }: any) {
   const { open, setOpen } = useContext(SelectContext);
+  if (asChild) {
+    return React.cloneElement(children, {
+      onClick: () => setOpen(!open),
+      style: { ...children.props.style, cursor: 'pointer' }
+    });
+  }
   return (
     <button
       type="button"
@@ -34,7 +60,7 @@ export function SelectTrigger({ children, className = "", style }: any) {
       }}
     >
       {children}
-      <ChevronDown size={16} style={{ opacity: 0.5 }} />
+      {!hideIcon && <ChevronDown size={16} style={{ opacity: 0.5 }} />}
     </button>
   );
 }

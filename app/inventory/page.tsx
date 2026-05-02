@@ -14,12 +14,15 @@ const MOCK_INVENTORY = [
     { id: "INV-1", product: "11kg LPG Tank", current: 45, threshold: 20, capacity: 100 },
     { id: "INV-2", product: "22kg LPG Tank", current: 18, threshold: 15, capacity: 50 },
     { id: "INV-3", product: "50kg LPG Tank", current: 4, threshold: 5, capacity: 20 },
+    { id: "INV-4", product: "Valve Set", current: 15, threshold: 10, capacity: 50 },
 ];
 
 const MOCK_REORDERS = [
     { id: "RO-001", date: "2023-10-25", product: "50kg LPG Tank", qty: 20, status: "Pending", requestedBy: "Branch Manager" },
     { id: "RO-002", date: "2023-10-24", product: "11kg LPG Tank", qty: 50, status: "Approved", requestedBy: "Branch Manager" },
     { id: "RO-003", date: "2023-10-20", product: "22kg LPG Tank", qty: 30, status: "Delivered", requestedBy: "System Admin" },
+    { id: "RO-005", date: "2023-10-15", product: "Valve Set", qty: 30, status: "Delivered", requestedBy: "Branch Manager" },
+    { id: "RO-006", date: "2023-10-10", product: "11kg LPG Tank", qty: 100, status: "Delivered", requestedBy: "System Admin" },
 ];
 
 const reorderSchema = z.object({

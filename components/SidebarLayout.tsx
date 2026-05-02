@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ShoppingCart, Package, Users, Truck, BarChart3, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Users, Truck, BarChart3, ShieldCheck, Wrench } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
@@ -11,8 +11,9 @@ const NAV_ITEMS = [
   { href: "/inventory", label: "Inventory", icon: Package },
   { href: "/customers", label: "Customers", icon: Users },
   { href: "/fleet", label: "Fleet", icon: Truck },
+  { href: "/vehicles", label: "Vehicles", icon: Wrench },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/admin", label: "Admin", icon: ShieldCheck },
+  // { href: "/admin", label: "Admin", icon: ShieldCheck },
 ];
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {

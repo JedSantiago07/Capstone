@@ -1,8 +1,10 @@
+.pageHeader { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
 .pageTitle { font-size: 1.5rem; font-weight: 700; color: var(--foreground); margin-bottom: 0.25rem; }
-.pageSubtitle { font-size: 0.9rem; color: var(--muted-foreground); margin-bottom: 1.5rem; }
+.pageSubtitle { font-size: 0.9rem; color: var(--muted-foreground); margin-bottom: 0; }
 
 .card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 1.5rem; }
 .cardHeader { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+.cardHeaderFlex { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
 .cardTitle { font-size: 0.9375rem; font-weight: 600; color: var(--foreground); }
 .cardBody { padding: 1.25rem; }
 

@@ -32,8 +32,8 @@ const generateTimeSeriesData = (days: number) => {
 
 const mockProductData = [
     { name: "11kg Cylinder", value: 60, fill: "var(--primary)" },
-    { name: "22kg Cylinder", value: 30, fill: "var(--chart-color-2)" },
-    { name: "50kg Cylinder", value: 10, fill: "var(--chart-color-3)" },
+    { name: "22kg Cylinder", value: 30, fill: "#0ea5e9" },
+    { name: "50kg Cylinder", value: 10, fill: "#f59e0b" },
 ];
 
 const mockSlaData = [
@@ -53,12 +53,12 @@ const settingsSchema = z.object({
 });
 
 const orderChartConfig = { orders: { label: "Total Orders", color: "var(--primary)" } };
-const csatChartConfig = { csat: { label: "Avg CSAT Score", color: "var(--chart-color-2)" } };
-const deliveryChartConfig = { onTime: { label: "On-Time", color: "var(--primary)" }, late: { label: "Late", color: "var(--accent)" } };
+const csatChartConfig = { csat: { label: "Avg CSAT Score", color: "#f59e0b" } };
+const deliveryChartConfig = { onTime: { label: "On-Time", color: "var(--primary)" }, late: { label: "Late", color: "#ef4444" } };
 const productChartConfig = { value: { label: "Percentage", color: "var(--primary)" } };
 
 export default function AnalyticsPage() {
-    const [period, setPeriod] = useState("30");
+    const [period, setPeriod] = useState("30 Days");
     const [mounted, setMounted] = React.useState(false);
 
     React.useEffect(() => {
@@ -67,7 +67,7 @@ export default function AnalyticsPage() {
 
     const chartData = useMemo(() => {
         if (!mounted) return [];
-        return generateTimeSeriesData(Number(period));
+        return generateTimeSeriesData(parseInt(period, 10));
     }, [period, mounted]);
 
 
@@ -95,14 +95,16 @@ export default function AnalyticsPage() {
                     <p className={styles.pageSubtitle}>Makati Branch — Owner Dashboard</p>
                 </div>
                 <div className={styles.headerActions}>
-                    <Select value={period} onValueChange={setPeriod}>
-                        <SelectTrigger className={styles.periodSelect}><SelectValue placeholder="Select period" /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="7">Last 7 days</SelectItem>
-                            <SelectItem value="30">Last 30 days</SelectItem>
-                            <SelectItem value="90">Last 90 days</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <div className={styles.periodSelect}>
+                        <Select value={period} onValueChange={setPeriod}>
+                            <SelectTrigger><SelectValue placeholder="Select period" /></SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="7 Days">Last 7 days</SelectItem>
+                                <SelectItem value="30 Days">Last 30 days</SelectItem>
+                                <SelectItem value="90 Days">Last 90 days</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
             </header>
 
@@ -189,7 +191,7 @@ export default function AnalyticsPage() {
                     <div className={styles.chartWrapper}>
                         <ChartContainer config={productChartConfig}>
                             <PieChart>
-                                <Pie data={mockProductData} cx="50%" cy="50%" innerRadius={80} outerRadius={120} paddingAngle={5} dataKey="value" stroke="none">
+                                <Pie data={mockProductData} cx="50%" cy="50%" innerRadius={60} outerRadius={90} paddingAngle={5} dataKey="value" stroke="none" label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}>
                                     {mockProductData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.fill} />
                                     ))}
@@ -206,7 +208,7 @@ export default function AnalyticsPage() {
                                     }
                                     return null;
                                 }} />
-                                <ChartLegend content={<ChartLegendContent />} layout="vertical" verticalAlign="middle" align="right" />
+                                <ChartLegend content={<ChartLegendContent />} />
                             </PieChart>
                         </ChartContainer>
                     </div>

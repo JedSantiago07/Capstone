@@ -1,16 +1,18 @@
 import React from "react";
-import { Tooltip, Legend } from "recharts";
+import { ResponsiveContainer, Tooltip, Legend } from "recharts";
 
 export function ChartContainer({ children, config, className = "", style }: any) {
   return (
-    <div className={`chart-container ${className}`} style={{ width: "100%", height: "100%", ...style }}>
+    <div className={`chart-container ${className}`} style={{ width: "100%", height: "100%", minHeight: "100%", ...style }}>
       {/* Inject colors from config into CSS variables if needed */}
       <style dangerouslySetInnerHTML={{ __html: `
         :root {
           ${Object.entries(config || {}).map(([key, val]: any) => `--color-${key}: ${val.color};`).join("\n")}
         }
       `}} />
-      {children}
+      <ResponsiveContainer width="100%" height="100%">
+        {children}
+      </ResponsiveContainer>
     </div>
   );
 }
@@ -45,9 +47,9 @@ export function ChartLegendContent({ payload }: any) {
     return (
         <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1rem" }}>
             {payload.map((entry: any, index: number) => (
-                <div key={index} style={{ display: "flex", alignItems: "center", gap: "0.25rem", fontSize: "0.875rem" }}>
-                    <div style={{ width: "0.5rem", height: "0.5rem", borderRadius: "2px", backgroundColor: entry.color }} />
-                    <span>{entry.value}</span>
+                <div key={index} style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.875rem", color: "var(--foreground, #000)" }}>
+                    <div style={{ width: "0.75rem", height: "0.75rem", borderRadius: "2px", backgroundColor: entry.color || entry.payload?.fill }} />
+                    <span style={{ fontWeight: 500 }}>{entry.value || entry.payload?.name}</span>
                 </div>
             ))}
         </div>
